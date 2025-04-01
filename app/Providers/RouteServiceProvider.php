@@ -24,24 +24,21 @@ class RouteServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot(): void
-    {
-        $this->configureRateLimiting();
-        $this->configureRouteModelBinding();
+{
+    $this->configureRateLimiting();
+    $this->configureRouteModelBinding();
 
-        $this->routes(function () {
-            // Rutas API con prefijo /api
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+    $this->routes(function () {
+        // ✅ Rutas API (sin namespace)
+        Route::prefix('api')
+            ->middleware('api')
+            ->group(base_path('routes/api.php'));
 
-            // Rutas Web
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
-        });
-    }
-
+        // ✅ Rutas Web (sin namespace)
+        Route::middleware('web')
+            ->group(base_path('routes/web.php'));
+    });
+}
     /**
      * Configure the rate limiters for the application.
      *
