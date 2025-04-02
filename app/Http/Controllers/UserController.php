@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -12,6 +13,14 @@ class UserController extends Controller
     public function index()
     {
         return User::all();
+
+        if (Gate::denies('is-admin')) {
+            abort(403, 'Acceso denegado');
+        }
+    
+        // código que solo admins pueden ver
+        $users = User::all();
+        return response()->json($users);
     }
 
     // Crear un nuevo usuario

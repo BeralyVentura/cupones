@@ -48,3 +48,5 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::delete('/coupons/{id}', [CouponController::class, 'destroy'])->name('coupons.destroy');
     Route::post('/coupons/{id}/redeem', [CouponController::class, 'redeem'])->name('coupons.redeem'); // Canje de cupón
 });
+
+Route::middleware('auth:sanctum')->get('/v1/users', [UserController::class, 'index']);
