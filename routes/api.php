@@ -21,13 +21,16 @@ Route::prefix('v1/auth')->group(function () {
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 
     // Ruta para cerrar sesión
-    Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+// Obtener usuario autenticado
+Route::get('/auth/me', [AuthController::class, 'me'])->name('auth.me');
 
     // Usuarios
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::put(uri: '/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
     // Negocios
@@ -35,7 +38,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::post('/businesses', [BusinessController::class, 'store'])->name('businesses.store');
     Route::get('/businesses/{id}', [BusinessController::class, 'show'])->name('businesses.show');
     Route::put('/businesses/{id}', [BusinessController::class, 'update'])->name('businesses.update');
-    Route::delete('/businesses/{id}', [BusinessController::class, 'destroy'])->name('businesses.destroy');
+    Route::delete('/businesses/{id}', action: [BusinessController::class, 'destroy'])->name('businesses.destroy');
 
     // Cupones
     Route::get('/coupons', [CouponController::class, 'index'])->name('coupons.index');
