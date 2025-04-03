@@ -27,6 +27,8 @@ Route::prefix('v1/auth')->group(function () {
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::get('/auth/me', [AuthController::class, 'me'])->name('auth.me');
+    Route::get('/businesses', [AuthController::class, 'listAllBusinesses'])->name('auth.businesses.listAllBusinesses');
+
 });
 
 // 🔒 Rutas para ADMINISTRADOR
@@ -41,7 +43,6 @@ Route::prefix('v1/admin')->middleware(['auth:sanctum', 'role:Administrador'])->g
 // 🔒 Rutas para EMPRESAS
 Route::prefix('v1/empresa')->middleware(['auth:sanctum', 'role:Empresa'])->group(function () {
     // Negocios
-    Route::get('/businesses', [BusinessController::class, 'index'])->name('empresa.businesses.index');
     Route::post('/businesses', [BusinessController::class, 'store'])->name('empresa.businesses.store');
     Route::get('/businesses/{id}', [BusinessController::class, 'show'])->name('empresa.businesses.show');
     Route::put('/businesses/{id}', action: [BusinessController::class, 'update'])->name('empresa.businesses.update');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Business;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,5 +65,12 @@ class AuthController extends Controller
     public function me(Request $request)
     {
         return response()->json($request->user());
+    }
+
+    // ✅ Copia del método para listar todos los negocios
+    public function listAllBusinesses()
+    {
+        $businesses = Business::all();
+        return response()->json($businesses);
     }
 }
