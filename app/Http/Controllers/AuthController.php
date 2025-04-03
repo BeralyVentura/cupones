@@ -34,24 +34,24 @@ class AuthController extends Controller
     // Método para registrar un nuevo usuario
     public function register(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:6',
+            'role' => 'in:admin,empresa,usuario', // <- validación opcional
         ]);
 
         $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
-            'message' => 'Usuario registrado con éxito',
-            'token' => $token,
-        ], 201);
+            'token' => $user->createToken("API TOKEN")->plainTextToken,
+            'user' => $user,
+        ], 201);    
     }
 
     // Método para cerrar sesión
