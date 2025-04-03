@@ -21,6 +21,10 @@ class CouponController extends Controller
             'discount' => 'required|numeric|min:0',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
+            'business_id' => 'required|int',
+            'regular_price' => 'required|int',
+            'offer_price' => 'required|int'
+
         ]);
 
         $coupon = Coupon::create($validated);
@@ -43,10 +47,13 @@ class CouponController extends Controller
         $coupon = Coupon::findOrFail($id);
 
         $validated = $request->validate([
-            'title' => 'sometimes|required|string|max:255',
-            'discount' => 'sometimes|required|numeric|min:0',
-            'start_date' => 'sometimes|required|date',
-            'end_date' => 'sometimes|required|date|after:start_date',
+            'title' => 'required|string|max:255',
+            'discount' => 'required|numeric|min:0',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'business_id' => 'required|int',
+            'regular_price' => 'required|int',
+            'offer_price' => 'required|int'
         ]);
 
         $coupon->update($validated);
@@ -68,7 +75,14 @@ class CouponController extends Controller
     {
         $coupon = Coupon::findOrFail($id);
 
-        // Aquí puedes agregar lógica para verificar si el cupón ya ha sido canjeado o no
+        // Verificar si el cupón ha expirado
+        if (now()->greaterThan($coupon->end_date)) {
+            return response()->json([
+                'message' => 'Este cupón ha expirado y no puede ser canjeado.'
+            ], 400);
+        }
+
+        // Aquí puedes agregar más lógica, como si ya ha sido canjeado
 
         return response()->json([
             'message' => 'Cupón canjeado correctamente',
