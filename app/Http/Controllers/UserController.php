@@ -13,11 +13,11 @@ class UserController extends Controller
     // Listar todos los usuarios (solo administradores)
     public function index()
     {
-        return User::all();
 
-        if (Gate::denies('is-admin')) {
+        if (!Gate::allows('is-admin')) { 
             abort(403, 'Acceso denegado');
         }
+
     
         // código que solo admins pueden ver
         $users = User::all();
