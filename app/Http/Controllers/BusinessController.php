@@ -60,15 +60,20 @@ class BusinessController extends Controller
     public function update(Request $request, $id)
     {
         $business = Business::findOrFail($id);
-
         $request->validate([
             'name' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
-
-
+            'category' => 'sometimes|string|max:255',
+            'contact' => 'sometimes|string|max:255',
+            'address' => 'sometimes|string|max:255',
+            'phone' => 'sometimes|string|max:20',
         ]);
+        
 
-        $business->update($request->only(['name', 'description']));
+        $business->update($request->only([
+            'name', 'description', 'category', 'contact', 'address', 'phone'
+        ]));
+        
 
         return response()->json([
             'message' => 'Negocio actualizado correctamente.',
