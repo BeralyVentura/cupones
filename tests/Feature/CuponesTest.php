@@ -9,7 +9,7 @@ use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-class CouponTest extends TestCase
+class CuponesTest extends TestCase
 {
     use RefreshDatabase;
 
