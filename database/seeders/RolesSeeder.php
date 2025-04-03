@@ -2,21 +2,31 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
-
 
 class RolesSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
-        Role::create(['name' => 'Administrador']);
-        Role::create(['name' => 'Usuario']);
-        Role::create(['name' => 'Empresa']);
+        // Crear roles (sin duplicar)
+        Role::firstOrCreate(['name' => 'Administrador']);
+        Role::firstOrCreate(['name' => 'Usuario']);
+        Role::firstOrCreate(['name' => 'Empresa']);
+
+        // Crear usuario administrador
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@cuponera.com'],
+            [
+                'name' => 'Admin User',
+                'password' => bcrypt('admin1234'),
+            ]
+        );
+
+        // Asignar rol administrador si no lo tiene
+        if (!$admin->hasRole('Administrador')) {
+            $admin->assignRole('Administrador');
+        }
     }
-    
 }
