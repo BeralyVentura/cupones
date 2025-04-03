@@ -51,6 +51,7 @@ Route::prefix('v1/empresa')->middleware(['auth:sanctum', 'role:Empresa'])->group
     // Cupones
     Route::post('/coupons', [CouponController::class, 'store'])->name('empresa.coupons.store');
     Route::put('/coupons/{id}', [CouponController::class, 'update'])->name('empresa.coupons.update');
+    Route::post('/coupons/{id}/redeem', [BusinessController::class, 'redeem'])->name('empresa.coupons.redeem');
     Route::delete('/coupons/{id}', [CouponController::class, 'destroy'])->name('empresa.coupons.destroy');
 });
 
@@ -58,5 +59,4 @@ Route::prefix('v1/empresa')->middleware(['auth:sanctum', 'role:Empresa'])->group
 Route::prefix('v1/usuario')->middleware(['auth:sanctum', 'role:Usuario'])->group(function () {
     Route::get('/coupons', [CouponController::class, 'index'])->name('usuario.coupons.index');
     Route::get('/coupons/{id}', [CouponController::class, 'show'])->name('usuario.coupons.show');
-    Route::post('/coupons/{id}/redeem', [CouponController::class, 'redeem'])->name('usuario.coupons.redeem');
 });
