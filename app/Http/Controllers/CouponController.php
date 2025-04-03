@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Coupon;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 
 class CouponController extends Controller
@@ -72,35 +71,5 @@ class CouponController extends Controller
         return response()->json(['message' => 'Cupón eliminado']);
     }
 
-    // Canjear un cupón
-    public function redeem($id)
-    {
-        $coupon = Coupon::findOrFail($id);
 
-        // Verificar que end_date no sea null
-        if (!$coupon->end_date) {
-            return response()->json([
-                'message' => 'Este cupón no tiene fecha de vencimiento definida.'
-            ], 400);
-        }
-
-        // Validar que la fecha actual no sea posterior a end_date
-        if (Carbon::now()->greaterThan(Carbon::parse($coupon->end_date))) {
-            return response()->json([
-                'message' => 'Este cupón ha expirado y no puede ser canjeado.'
-            ], 400);
-        }
-
-        // (Opcional) Validar que aún no haya comenzado
-        if ($coupon->start_date && Carbon::now()->lessThan(Carbon::parse($coupon->start_date))) {
-            return response()->json([
-                'message' => 'Este cupón aún no está disponible para ser canjeado.'
-            ], 400);
-        }
-
-        return response()->json([
-            'message' => 'Cupón canjeado correctamente',
-            'coupon' => $coupon
-        ]);
-    }
 }
