@@ -8,7 +8,7 @@ use App\Http\Controllers\CouponController;
 
 // Ruta de prueba pública
 Route::get('/test', function () {
-    return response()->json(['status' => 'API funcionando']);
+    return response()->json(data: ['status' => 'API funcionando']);
 });
 
 // Rutas públicas de autenticación (NO requieren token)

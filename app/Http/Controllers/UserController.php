@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;  // Importa el modelo Role
 
 class UserController extends Controller
 {
@@ -26,22 +27,24 @@ class UserController extends Controller
     // Crear un nuevo usuario
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        // Validación de los datos (añadir validación según sea necesario)
+        $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
+        // Crear el usuario
         $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
         ]);
 
-        return response()->json([
-            'message' => 'Usuario creado correctamente',
-            'user' => $user
-        ], 201);
+        // Asignar rol al usuario (puedes cambiar 'Usuario' por el rol que desees)
+        $user->assignRole('Usuario');  // Asigna el rol correspondiente (Administrador, Empresa, etc.)
+
+        return response()->json(['message' => 'Usuario creado y rol asignado', 'user' => $user], 201);
     }
 
     // Obtener un usuario específico
