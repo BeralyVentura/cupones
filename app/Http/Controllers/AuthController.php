@@ -40,12 +40,14 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:6',
         ]);
+        
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
+        $user->assignRole('Usuario');
 
         return response()->json([
             'token' => $user->createToken("API TOKEN")->plainTextToken,
