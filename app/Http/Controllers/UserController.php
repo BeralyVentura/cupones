@@ -42,7 +42,7 @@ class UserController extends Controller
         ]);
 
         // Asignar rol al usuario (puedes cambiar 'Usuario' por el rol que desees)
-        $user->assignRole('Usuario');  // Asigna el rol correspondiente (Administrador, Empresa, etc.)
+        $user->assignRole('Empresa');  // Asigna el rol correspondiente (Administrador, Empresa, etc.)
 
         return response()->json(['message' => 'Usuario creado y rol asignado', 'user' => $user], 201);
     }

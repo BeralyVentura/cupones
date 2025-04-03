@@ -20,12 +20,19 @@ class BusinessController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'category'=> 'required|string|max:255',
+            'contact' => 'required|int'
+
+
         ]);
 
         $business = Business::create([
             'name' => $request->name,
             'description' => $request->description,
             'user_id' => Auth::id(),
+            'category'=> $request->category,
+            'contact'=> $request->contact
+
         ]);
 
         // Obtener el usuario autenticado
@@ -55,6 +62,8 @@ class BusinessController extends Controller
         $request->validate([
             'name' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
+
+
         ]);
 
         $business->update($request->only(['name', 'description']));
