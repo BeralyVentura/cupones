@@ -31,7 +31,7 @@ class CouponTest extends TestCase
             'discount' => 20,
             'start_date' => now()->toDateString(),
             'end_date' => now()->addDays(5)->toDateString(),
-            'business_id' => $business->id, // ✅ Este es válido ahora
+            'business_id' => $business->id, 
             'regular_price' => 100,
             'offer_price' => 80
         ];
