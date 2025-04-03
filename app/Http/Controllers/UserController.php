@@ -48,10 +48,17 @@ class UserController extends Controller
     }
 
     // Obtener un usuario específico
-    public function show(User $user)
+    public function show($id)
     {
+        $user = User::with('roles')->find($id);
+    
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+    
         return response()->json($user);
     }
+
 
     // Actualizar un usuario específico
     public function update(Request $request, User $user)

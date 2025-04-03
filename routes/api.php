@@ -32,6 +32,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 // 🔒 Rutas para ADMINISTRADOR
 Route::prefix('v1/admin')->middleware(['auth:sanctum', 'role:Administrador'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('admin.users.show');
     Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
@@ -43,7 +44,7 @@ Route::prefix('v1/empresa')->middleware(['auth:sanctum', 'role:Empresa'])->group
     Route::get('/businesses', [BusinessController::class, 'index'])->name('empresa.businesses.index');
     Route::post('/businesses', [BusinessController::class, 'store'])->name('empresa.businesses.store');
     Route::get('/businesses/{id}', [BusinessController::class, 'show'])->name('empresa.businesses.show');
-    Route::put('/businesses/{id}', [BusinessController::class, 'update'])->name('empresa.businesses.update');
+    Route::put('/businesses/{id}', action: [BusinessController::class, 'update'])->name('empresa.businesses.update');
     Route::delete('/businesses/{id}', [BusinessController::class, 'destroy'])->name('empresa.businesses.destroy');
 
     // Cupones
